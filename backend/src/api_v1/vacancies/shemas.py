@@ -99,7 +99,7 @@ class VacancyBase(BaseModel):
     has_test: Optional[bool] = None
     premium: Optional[bool] = None
     name: Optional[str] = None
-    department: Optional[str] = None
+    # department: Optional[str] = None
     response_letter_required: Optional[bool] = None
     response_url: Optional[str] = None
     sort_point_distance: Optional[str] = None

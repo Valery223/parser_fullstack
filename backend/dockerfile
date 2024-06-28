@@ -1,0 +1,24 @@
+# Use the official Python image from the Docker Hub
+FROM python:3.10
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the dependencies file to the working directory
+COPY pyproject.toml poetry.lock ./
+
+# Install Poetry
+RUN pip install poetry
+
+# Install dependencies
+RUN poetry install --no-dev
+
+# Copy the application code to the working directory
+COPY src ./src
+COPY alembic.ini alembic.ini
+
+# Expose the port the app runs on
+EXPOSE 8000
+
+# Define the command to run the application
+CMD ["sh", "-c", "export PYTHONPATH=$PWD:$PWD/src:$PYTHONPATH && poetry run alembic upgrade head && poetry run uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload"]
