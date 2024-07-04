@@ -12,12 +12,13 @@ const App = () => {
   const [period, setPeriod] = useState('all'); // '7days', '20days', 'all'
   const [salary, setSalary] = useState(null);
   const [currency, setCurrency] = useState('RUR'); // 'RUR', 'EUR'
+  const [searchKey, setSearchKey] = useState(0); // For forcing re-render
 
   const fetchVacancy = (value) => {
     const params = {
       text: value,
       period: period !== 'all' ? period : undefined,
-      salary_from: salary !== null ? salary : undefined,
+      salary: salary !== null ? salary : undefined,
       currency: currency
     };
 
@@ -25,6 +26,7 @@ const App = () => {
       .then(response => {
         console.log('Response', response.data);
         setVacancies(response.data.slice(0, perPage));
+        setSearchKey(prevKey => prevKey + 1); // Force re-render
       })
       .catch(error => {
         console.error('Error fetching vacancies', error);
@@ -37,14 +39,14 @@ const App = () => {
   }
 
   return (
-    <div >
+    <div className="flex">
       <Space direction="vertical">
-        <Search placeholder="input search vacancy" onSearch={onSearch} enterButton style={{ width: 320 }}/>
+        <Search placeholder="input search vacancy" onSearch={onSearch}  style={{ width: 220 }} enterButton />
         
         <Select value={period} onChange={setPeriod} style={{ width: 120 }}>
           <Option value="7">7 дней</Option>
           <Option value="20">20 дней</Option>
-          <Option value="100">Всё время</Option>
+          <Option value="all">Всё время</Option>
         </Select>
 
         <InputNumber 
@@ -60,11 +62,9 @@ const App = () => {
         </Select>
 
         <div className="mx-auto my-auto">
-          <Space size={[10, 20]} direction="vertical">
           {vacancies.map((vacancy, index) => (
-            <VacancyTable key={index} vacancy={vacancy} />
+            <VacancyTable key={`${index}-${searchKey}`} vacancy={vacancy} />
           ))}
-          </Space>
         </div>
       </Space>
     </div>
