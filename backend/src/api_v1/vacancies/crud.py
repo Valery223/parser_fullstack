@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from sqlalchemy.orm import selectinload
 from typing import Type
 
 from core.models import Vacancy, Area
@@ -27,6 +27,22 @@ from api_v1.vacancies.shemas import VacancyBase, VacancyCreate, AreaBase, AreaCr
 async def get_one(session: AsyncSession, model: Type, key)-> Type | None:
     return await session.get(model, key)
 
+async def get_one_full(session: AsyncSession, model: Type, key) -> Type | None:
+    result = await session.execute(
+        select(model)
+        .options(
+            selectinload(model.area),
+            selectinload(model.type_),
+            selectinload(model.employer),
+            selectinload(model.schedule),
+            selectinload(model.employment),
+            selectinload(model.experience),
+            selectinload(model.salary),
+            selectinload(model.snippet)
+        )
+        .filter_by(id=key)
+    )
+    return result.scalars().first()
 # async def vacancy_get_all(session: AsyncSession) -> list[Area]:
 #     stmt = select(Area).order_by(Area.name)
 #     result: Result = await session.execute(stmt)
