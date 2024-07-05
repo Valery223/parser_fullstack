@@ -2,11 +2,11 @@ from typing import Annotated
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from fastapi import APIRouter, Depends, HTTPException, status, Query
-from fastapi_pagination import Page, add_pagination, paginate
+# from fastapi import APIRouter, Depends, HTTPException, status, Query
+# from fastapi_pagination import Page, add_pagination, paginate
 
-from .shemas import QueryParamsBase, VacancyBase
-from core.models import db_helper, Vacancy
+from .shemas import QueryParamsBase#, VacancyBase
+from core.models import db_helper
 from . import service
 
 

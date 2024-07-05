@@ -14,8 +14,6 @@ if TYPE_CHECKING:
 class Salary(Base):
     __tablename__ = 'salaries'
 
-    
-
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     salary_from: Mapped[float | None] = mapped_column(nullable=True)
     salary_to: Mapped[float | None] = mapped_column(nullable=True)

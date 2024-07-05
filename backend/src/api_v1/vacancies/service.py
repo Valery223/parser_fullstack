@@ -1,9 +1,6 @@
 import requests
 
-from sqlalchemy import select
-from sqlalchemy.engine import Result
-
-from core.models import Area, Type, Salary, Vacancy, Employer, Snippet, Schedule, Experience, Employment, Base
+from core.models import Area, Type, Salary, Vacancy, Employer, Snippet, Schedule, Experience, Employment
 from .shemas import AreaCreate, TypeCreate, SalaryCreate, EmployerCreate, SnippetCreate, ScheduleCreate, ExperienceCreate, EmploymentCreate, VacancyCreate
 
 from . import crud
@@ -13,7 +10,7 @@ async def parsing(params: dict, url = "https://api.hh.ru/vacancies"):
     # Заголовки запроса с токеном авторизации
     headers = {
         'User-Agent': 'my-app/0.0.1'
-        # "Authorization": "Bearer YOUR_OAUTH_TOKEN"
+        # "Authorization": "Bearer YOUR_OAUTH_TOKEN" -> mb later
     }
     return requests.get(url, params=params, headers=headers)
 

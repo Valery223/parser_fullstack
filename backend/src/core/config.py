@@ -19,4 +19,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings(_env_file='db.env', _env_file_encoding='utf-8', db_echo=False)
-print(settings.get_url())

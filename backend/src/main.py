@@ -45,7 +45,7 @@ async def validation_exception_handler(request: Request, exc: ValidationError):
         content={"detail1": exc.detail}
     )
 
-
+# Run uvicorn as server
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", reload=True)
