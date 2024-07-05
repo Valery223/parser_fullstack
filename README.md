@@ -1,4 +1,9 @@
-# How to Use
+# Job Parser Project
+
+This project is a web application that parses job listings from a website (hh.ru), stores the data in a database, and provides a frontend for users to interact with the data. The application is built using React (Vite) for the frontend and FastAPI with SQLAlchemy and Alembic for the backend.
+
+
+## How to Use
 
 
 - [Backend](#backend)

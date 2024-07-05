@@ -1,8 +1,5 @@
 import requests
 
-from sqlalchemy import select
-from sqlalchemy.engine import Result
-
 from core.models import Area, Type, Salary, Vacancy, Employer, Snippet, Schedule, Experience, Employment
 from .shemas import AreaCreate, TypeCreate, SalaryCreate, EmployerCreate, SnippetCreate, ScheduleCreate, ExperienceCreate, EmploymentCreate, VacancyCreate
 
@@ -13,9 +10,11 @@ async def parsing(params: dict, url = "https://api.hh.ru/vacancies"):
     # Заголовки запроса с токеном авторизации
     headers = {
         'User-Agent': 'my-app/0.0.1'
-        # "Authorization": "Bearer YOUR_OAUTH_TOKEN"
+        # "Authorization": "Bearer YOUR_OAUTH_TOKEN" -> mb later
     }
     return requests.get(url, params=params, headers=headers)
+
+
 
 async def vacancy_get_one(params: dict, session):
     vacancy_arr = []
@@ -27,9 +26,10 @@ async def vacancy_get_one(params: dict, session):
             vacancy = await add_vacancy(session, vac)
         # vacancy = await add_vacancy(session, vacancies['items'][0])
             vacancy_arr.append(vacancy)
-        
+   
     else:
         print(f"Ошибка: {response.status_code}, {response.text}")
+    
     
     return vacancy_arr
 
@@ -116,4 +116,5 @@ async def add_vacancy(session, vacancy_data):
 
         vacancy = await crud.create(session= session, model = Vacancy, scheme_in = vacancy)
 
-    return vacancy
+
+    return await crud.get_one_full(session= session, model=Vacancy, key = vacancy_data['id'])
